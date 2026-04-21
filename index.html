@@ -1,0 +1,2437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Data Visualization – CAT Answer Guide | 22ADX01</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Sora:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d0f1a;
+    --surface: #13162a;
+    --card: #1a1e35;
+    --border: #252a45;
+    --accent: #7c6af7;
+    --accent2: #36d6b0;
+    --accent3: #f7a04a;
+    --text: #e8eaf6;
+    --muted: #8892b0;
+    --code-bg: #0a0c1a;
+    --mark2: #7c6af7;
+    --mark10: #36d6b0;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Sora', sans-serif;
+    font-size: 15px;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  /* NAV */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(13,15,26,0.92);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 0;
+    padding: 0 2rem;
+    height: 60px;
+  }
+
+  .nav-logo {
+    font-weight: 800;
+    font-size: 1rem;
+    color: var(--accent);
+    letter-spacing: -0.5px;
+    margin-right: auto;
+  }
+  .nav-logo span { color: var(--accent2); }
+
+  .nav-tabs { display: flex; gap: 4px; }
+  .nav-tab {
+    padding: 6px 20px;
+    border-radius: 8px;
+    border: 1.5px solid transparent;
+    background: none;
+    color: var(--muted);
+    font-family: 'Sora', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.3px;
+  }
+  .nav-tab:hover { color: var(--text); border-color: var(--border); background: var(--surface); }
+  .nav-tab.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .nav-tab.active.green { background: var(--accent2); color: #0d0f1a; border-color: var(--accent2); }
+
+  /* HERO */
+  .hero {
+    text-align: center;
+    padding: 4rem 2rem 2.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 70% 50% at 50% 0%, rgba(124,106,247,0.13) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-badge {
+    display: inline-block;
+    background: rgba(124,106,247,0.12);
+    border: 1px solid rgba(124,106,247,0.3);
+    color: var(--accent);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 4px 14px;
+    border-radius: 100px;
+    margin-bottom: 1.2rem;
+  }
+  .hero h1 {
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    font-weight: 800;
+    letter-spacing: -1px;
+    line-height: 1.2;
+    margin-bottom: 0.8rem;
+  }
+  .hero h1 .hl { color: var(--accent); }
+  .hero-sub {
+    color: var(--muted);
+    font-size: 0.95rem;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+  .hero-meta {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+    flex-wrap: wrap;
+  }
+  .hero-meta span {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 5px 14px;
+    font-size: 0.78rem;
+    color: var(--muted);
+    font-weight: 600;
+  }
+  .hero-meta span b { color: var(--text); }
+
+  /* CONTENT */
+  .container { max-width: 900px; margin: 0 auto; padding: 0 1.5rem 5rem; }
+  .section { display: none; }
+  .section.active { display: block; }
+
+  /* SECTION HEADER */
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin: 2rem 0 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .section-header .badge {
+    padding: 4px 14px;
+    border-radius: 100px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .badge-2 { background: rgba(124,106,247,0.15); color: var(--accent); border: 1px solid rgba(124,106,247,0.3); }
+  .badge-10 { background: rgba(54,214,176,0.12); color: var(--accent2); border: 1px solid rgba(54,214,176,0.3); }
+  .section-header h2 { font-size: 1.3rem; font-weight: 700; letter-spacing: -0.4px; }
+
+  /* Q CARD */
+  .q-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    margin-bottom: 1.5rem;
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+  .q-card:hover { border-color: rgba(124,106,247,0.35); }
+  .q-card.green:hover { border-color: rgba(54,214,176,0.35); }
+
+  .q-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1.2rem 1.4rem;
+    cursor: pointer;
+    user-select: none;
+    border-bottom: 1px solid var(--border);
+  }
+  .q-num {
+    flex-shrink: 0;
+    width: 34px; height: 34px;
+    border-radius: 9px;
+    background: rgba(124,106,247,0.15);
+    border: 1px solid rgba(124,106,247,0.3);
+    color: var(--accent);
+    font-weight: 700;
+    font-size: 0.85rem;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .q-card.green .q-num {
+    background: rgba(54,214,176,0.1);
+    border-color: rgba(54,214,176,0.3);
+    color: var(--accent2);
+  }
+  .q-text { flex: 1; font-weight: 600; font-size: 0.93rem; line-height: 1.5; }
+  .q-marks {
+    flex-shrink: 0;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    color: var(--muted);
+    padding: 3px 10px;
+    background: var(--surface);
+    border-radius: 100px;
+    margin-top: 2px;
+  }
+
+  .q-body { padding: 1.4rem; }
+  .q-body.collapsed { display: none; }
+
+  /* CODE BLOCK */
+  .code-block {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    border-radius: 10px;
+    margin: 1rem 0;
+    overflow: hidden;
+  }
+  .q-card.green .code-block { border-left-color: var(--accent2); }
+  .code-label {
+    background: rgba(124,106,247,0.08);
+    border-bottom: 1px solid var(--border);
+    padding: 6px 14px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--accent);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-family: 'JetBrains Mono', monospace;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .q-card.green .code-label { color: var(--accent2); background: rgba(54,214,176,0.05); }
+  .copy-btn {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    font-family: 'Sora', sans-serif;
+    font-size: 0.68rem;
+    padding: 2px 8px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-weight: 600;
+  }
+  .copy-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .code-block pre {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.82rem;
+    line-height: 1.8;
+    padding: 1.1rem 1.4rem;
+    overflow-x: auto;
+    color: #c9d1f0;
+    white-space: pre;
+  }
+
+  /* OUTPUT */
+  .output-block {
+    background: rgba(0,0,0,0.3);
+    border: 1px dashed var(--border);
+    border-radius: 8px;
+    padding: 0.9rem 1.2rem;
+    margin: 0.8rem 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    color: var(--accent2);
+    line-height: 1.7;
+  }
+  .output-label {
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 700;
+    color: var(--muted);
+    margin-bottom: 0.4rem;
+    font-family: 'Sora', sans-serif;
+  }
+
+  /* EXPLANATION */
+  .explanation { margin-top: 1.2rem; }
+  .explanation h4 {
+    font-size: 0.82rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--accent3);
+    margin-bottom: 0.8rem;
+  }
+  .explanation p { color: #c0c8e0; font-size: 0.9rem; line-height: 1.75; margin-bottom: 0.7rem; }
+  .func-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0.8rem 0;
+    font-size: 0.85rem;
+  }
+  .func-table th {
+    background: rgba(124,106,247,0.1);
+    color: var(--accent);
+    text-align: left;
+    padding: 8px 12px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+  }
+  .q-card.green .func-table th { background: rgba(54,214,176,0.07); color: var(--accent2); }
+  .func-table td { padding: 8px 12px; border-bottom: 1px solid var(--border); color: #c0c8e0; }
+  .func-table tr:last-child td { border-bottom: none; }
+  .func-table code {
+    background: rgba(124,106,247,0.1);
+    color: var(--accent);
+    padding: 1px 6px;
+    border-radius: 4px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+  }
+  .q-card.green .func-table code { background: rgba(54,214,176,0.08); color: var(--accent2); }
+
+  .divider {
+    height: 1px;
+    background: linear-gradient(90deg, var(--border), transparent);
+    margin: 1.2rem 0;
+  }
+
+  .cat-group {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 0.6rem 1rem;
+    margin-bottom: 1rem;
+    font-size: 0.8rem;
+    color: var(--muted);
+    font-weight: 600;
+  }
+  .cat-group span { color: var(--accent3); }
+
+  /* Keyword highlight in code */
+  .kw { color: #c084fc; }
+  .fn { color: #60a5fa; }
+  .str { color: #86efac; }
+  .num { color: #fb923c; }
+  .cm { color: #6b7280; font-style: italic; }
+
+  /* scroll to top */
+  .back-top {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    width: 40px; height: 40px;
+    border-radius: 10px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.3s;
+    z-index: 99;
+  }
+  .back-top.visible { opacity: 1; }
+
+  @media(max-width:600px){
+    nav { padding: 0 1rem; }
+    .hero { padding: 2.5rem 1rem 1.5rem; }
+    .container { padding: 0 1rem 4rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">DV <span>22ADX01</span></div>
+  <div class="nav-tabs">
+    <button class="nav-tab active" onclick="showSection('two')">2 Marks Answers</button>
+    <button class="nav-tab green" onclick="showSection('ten')">10 Marks Answers</button>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-badge">KEC · Even Semester 2025–2026</div>
+  <h1>Data Visualization<br><span class="hl">Answer Guide</span></h1>
+  <p class="hero-sub">Complete answers for CAT I, II & III — with Python programs + explanations for every question.</p>
+  <div class="hero-meta">
+    <span><b>Course:</b> 22ADX01</span>
+    <span><b>Semester:</b> VI</span>
+    <span><b>Max Marks:</b> 50</span>
+    <span><b>Programme:</b> B.E./B.Tech</span>
+  </div>
+</div>
+
+<div class="container">
+
+<!-- ==================== 2 MARKS ==================== -->
+<div id="two" class="section active">
+
+  <div class="section-header">
+    <span class="badge badge-2">2 Marks</span>
+    <h2>Short Answer Questions — All CATs</h2>
+  </div>
+
+  <!-- CAT I -->
+  <div class="cat-group">CAT – I &nbsp;·&nbsp; <span>January 2026</span> &nbsp;·&nbsp; NumPy Fundamentals</div>
+
+  <!-- Q1 -->
+  <div class="q-card">
+    <div class="q-header" onclick="toggle(this)">
+      <div class="q-num">1</div>
+      <div class="q-text">Make use of Python code to create arrays from python lists containing 10 numbers.</div>
+      <div class="q-marks">2 Marks</div>
+    </div>
+    <div class="q-body collapsed">
+      <div class="code-block">
+        <div class="code-label">Python Program <button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>
+import numpy as np
+
+# Creating a Python list of 10 numbers
+python_list = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+# Converting list to NumPy array
+arr = np.array(python_list)
+
+print("Python List :", python_list)
+print("NumPy Array :", arr)
+print("Type        :", type(arr))
+print("Shape       :", arr.shape)
+print("Data Type   :", arr.dtype)
+        </pre>
+      </div>
+      <div class="output-label">Expected Output</div>
+      <div class="output-block">Python List : [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+NumPy Array : [ 1  2  3  4  5  6  7  8  9 10]
+Type        : &lt;class 'numpy.ndarray'&gt;
+Shape       : (10,)
+Data Type   : int64</div>
+      <div class="explanation">
+        <h4>📘 Explanation & Function Details</h4>
+        <p><code>np.array()</code> is the primary function used to convert a Python list (or any sequence) into a NumPy ndarray. Unlike plain Python lists, NumPy arrays support vectorized operations, are stored in contiguous memory, and are much faster for numerical computations.</p>
+        <table class="func-table">
+          <tr><th>Function / Attribute</th><th>Purpose</th></tr>
+          <tr><td><code>np.array(list)</code></td><td>Converts a Python list into a NumPy array</td></tr>
+          <tr><td><code>.shape</code></td><td>Returns dimensions of the array (rows, cols)</td></tr>
+          <tr><td><code>.dtype</code></td><td>Returns data type of elements (int64, float64, etc.)</td></tr>
+          <tr><td><code>type()</code></td><td>Shows the class of the object</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q2 -->
+  <div class="q-card">
+    <div class="q-header" onclick="toggle(this)">
+      <div class="q-num">2</div>
+      <div class="q-text">Relate the concept of seed in NumPy random number generation.</div>
+      <div class="q-marks">2 Marks</div>
+    </div>
+    <div class="q-body collapsed">
+      <div class="code-block">
+        <div class="code-label">Python Program <button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>
+import numpy as np
+
+# Without seed — different results each run
+r1 = np.random.rand(3)
+print("Without seed:", r1)
+
+# With seed — same results every run
+np.random.seed(42)
+r2 = np.random.rand(3)
+print("With seed 42:", r2)
+
+np.random.seed(42)   # reset same seed
+r3 = np.random.rand(3)
+print("Seed 42 again:", r3)   # identical to r2
+        </pre>
+      </div>
+      <div class="output-label">Expected Output</div>
+      <div class="output-block">Without seed: [0.37 0.95 0.73]  ← changes every run
+With seed 42: [0.37454012 0.95071431 0.73199394]
+Seed 42 again: [0.37454012 0.95071431 0.73199394]  ← identical!</div>
+      <div class="explanation">
+        <h4>📘 Explanation</h4>
+        <p>A <b>seed</b> is an integer that initializes the random number generator's internal state. When the same seed is set, the sequence of random numbers produced is always identical — making experiments <b>reproducible</b>. Without a seed, NumPy uses the system clock, producing different numbers each run.</p>
+        <table class="func-table">
+          <tr><th>Function</th><th>Purpose</th></tr>
+          <tr><td><code>np.random.seed(n)</code></td><td>Sets the seed to integer n for reproducibility</td></tr>
+          <tr><td><code>np.random.rand(n)</code></td><td>Generates n random floats in [0.0, 1.0)</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q3 -->
+  <div class="q-card">
+    <div class="q-header" onclick="toggle(this)">
+      <div class="q-num">3</div>
+      <div class="q-text">Given a = np.arange(12), identify the NumPy operation to arrange values into a 3×4 grid.</div>
+      <div class="q-marks">2 Marks</div>
+    </div>
+    <div class="q-body collapsed">
+      <div class="code-block">
+        <div class="code-label">Python Program <button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>
+import numpy as np
+
+a = np.arange(12)
+print("Original:", a)
+
+# Reshape to 3 rows x 4 columns
+grid = a.reshape(3, 4)
+print("\n3x4 Grid:\n", grid)
+        </pre>
+      </div>
+      <div class="output-label">Expected Output</div>
+      <div class="output-block">Original: [ 0  1  2  3  4  5  6  7  8  9 10 11]
+
+3x4 Grid:
+ [[ 0  1  2  3]
+  [ 4  5  6  7]
+  [ 8  9 10 11]]</div>
+      <div class="explanation">
+        <h4>📘 Explanation</h4>
+        <p><code>np.arange(12)</code> creates a 1-D array of 12 elements (0–11). <code>.reshape(3, 4)</code> rearranges those 12 elements into a 2-D array with 3 rows and 4 columns. The total number of elements must remain the same (3×4 = 12).</p>
+        <table class="func-table">
+          <tr><th>Function</th><th>Purpose</th></tr>
+          <tr><td><code>np.arange(n)</code></td><td>Creates array of integers from 0 to n-1</td></tr>
+          <tr><td><code>.reshape(r, c)</code></td><td>Returns a new array with given shape without changing data</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q4 -->
+  <div class="q-card">
+    <div class="q-header" onclick="toggle(this)">
+      <div class="q-num">4</div>
+      <div class="q-text">Identify the three methods used for splitting arrays in NumPy.</div>
+      <div class="q-marks">2 Marks</div>
+    </div>
+    <div class="q-body collapsed">
+      <div class="code-block">
+        <div class="code-label">Python Program <button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>
+import numpy as np
+
+a = np.array([1, 2, 3, 4, 5, 6])
+
+# 1. np.split() — split into equal parts
+s1 = np.split(a, 3)
+print("np.split()  :", s1)
+
+# 2. np.hsplit() — horizontal split (along columns)
+m = np.array([[1,2,3,4],[5,6,7,8]])
+h = np.hsplit(m, 2)
+print("np.hsplit() :", h)
+
+# 3. np.vsplit() — vertical split (along rows)
+v = np.vsplit(m, 2)
+print("np.vsplit() :", v)
+        </pre>
+      </div>
+      <div class="explanation">
+        <h4>📘 Explanation</h4>
+        <table class="func-table">
+          <tr><th>Method</th><th>Splits Along</th><th>Use Case</th></tr>
+          <tr><td><code>np.split(arr, n)</code></td><td>Any axis</td><td>General-purpose splitting into n equal parts</td></tr>
+          <tr><td><code>np.hsplit(arr, n)</code></td><td>Horizontal (columns)</td><td>Split 2D array column-wise</td></tr>
+          <tr><td><code>np.vsplit(arr, n)</code></td><td>Vertical (rows)</td><td>Split 2D array row-wise</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q5 -->
+  <div class="q-card">
+    <div class="q-header" onclick="toggle(this)">
+      <div class="q-num">5</div>
+      <div class="q-text">Differentiate between vectorized operations and loop-based operations in Python.</div>
+      <div class="q-marks">2 Marks</div>
+    </div>
+    <div class="q-body collapsed">
+      <div class="code-block">
+        <div class="code-label">Python Program <button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>
+import numpy as np
+import time
+
+arr = list(range(1000000))
+np_arr = np.array(arr)
+
+# Loop-based (slow)
+start = time.time()
+result = [x * 2 for x in arr]
+print("Loop time:", round(time.time() - start, 4), "s")
+
+# Vectorized (fast)
+start = time.time()
+result = np_arr * 2
+print("Vectorized:", round(time.time() - start, 4), "s")
+        </pre>
+      </div>
+      <div class="explanation">
+        <h4>📘 Key Differences</h4>
+        <table class="func-table">
+          <tr><th>Aspect</th><th>Loop-Based</th><th>Vectorized (NumPy)</th></tr>
+          <tr><td>Speed</td><td>Slow (Python loop overhead)</td><td>Very fast (C-level operations)</td></tr>
+          <tr><td>Syntax</td><td>Explicit for/while loops</td><td>Direct array operations (+, *, etc.)</td></tr>
+          <tr><td>Memory</td><td>Less efficient</td><td>Contiguous memory, cache-friendly</td></tr>
+          <tr><td>Readability</td><td>Verbose</td><td>Concise and clean</td></tr>
+        </table>
+        <p>Vectorized operations apply a function to entire arrays at once using pre-compiled C/Fortran code, avoiding Python interpreter overhead on each element.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q6 -->
+  <div class="q-card">
+    <div class="q-header" onclick="toggle(this)">
+      <div class="q-num">6</div>
+      <div class="q-text">Predict the output: x = np.array([-2,-1,0,1,2]); x1=abs(x); print(x1); print("3^x =", np.power(3,x))</div>
+      <div class="q-marks">2 Marks</div>
+    </div>
+    <div class="q-body collapsed">
+      <div class="code-block">
+        <div class="code-label">Python Program <button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>
+import numpy as np
+
+x = np.array([-2, -1, 0, 1, 2])
+x1 = abs(x)
+print(x1)
+print("3^x =", np.power(3, x))
+        </pre>
+      </div>
+      <div class="output-label">Output</div>
+      <div class="output-block">[2 1 0 1 2]
+3^x = [0 0 1 3 9]</div>
+      <div class="explanation">
+        <h4>📘 Explanation</h4>
+        <p><code>abs(x)</code> applied to a NumPy array computes element-wise absolute values: |-2|=2, |-1|=1, |0|=0, |1|=1, |2|=2.</p>
+        <p><code>np.power(3, x)</code> computes 3 raised to each element: 3⁻²=0 (integer truncation), 3⁻¹=0 (integer), 3⁰=1, 3¹=3, 3²=9. Since x is integer dtype, fractional powers truncate to 0.</p>
+        <table class="func-table">
+          <tr><th>Function</th><th>Purpose</th></tr>
+          <tr><td><code>abs(arr)</code></td><td>Element-wise absolute value</td></tr>
+          <tr><td><code>np.power(base, exp)</code></td><td>Element-wise exponentiation base^exp</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q7 -->
+  <div class="q-card">
+    <div class="q-header" onclick="toggle(this)">
+      <div class="q-num">7</div>
+      <div class="q-text">Show the purpose of aggregation functions argmin() and argmax() in NumPy.</div>
+      <div class="q-marks">2 Marks</div>
+    </div>
+    <div class="q-body collapsed">
+      <div class="code-block">
+        <div class="code-label">Python Program <button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>
+import numpy as np
+
+a = np.array([15, 3, 42, 7, 99, 1, 56])
+
+print("Array      :", a)
+print("argmin()   :", np.argmin(a), "→ value:", a[np.argmin(a)])
+print("argmax()   :", np.argmax(a), "→ value:", a[np.argmax(a)])
+
+# 2D example
+m = np.array([[10, 50], [20, 5]])
+print("2D argmin  :", np.argmin(m))       # flattened index
+print("2D argmax  :", np.argmax(m))
+        </pre>
+      </div>
+      <div class="output-label">Output</div>
+      <div class="output-block">Array      : [15  3 42  7 99  1 56]
+argmin()   : 5 → value: 1
+argmax()   : 4 → value: 99
+2D argmin  : 3
+2D argmax  : 1</div>
+      <div class="explanation">
+        <h4>📘 Explanation</h4>
+        <table class="func-table">
+          <tr><th>Function</th><th>Returns</th><th>Use</th></tr>
+          <tr><td><code>np.argmin(arr)</code></td><td>Index of the minimum value</td><td>Find position of smallest element</td></tr>
+          <tr><td><code>np.argmax(arr)</code></td><td>Index of the maximum value</td><td>Find position of largest element</td></tr>
+        </table>
+        <p>Unlike <code>min()</code>/<code>max()</code> which return the value itself, <code>argmin</code>/<code>argmax</code> return the <b>index (position)</b> of that value — essential for locating elements in datasets.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q8 -->
+  <div class="q-card">
+    <div class="q-header" onclick="toggle(this)">
+      <div class="q-num">8</div>
+      <div class="q-text">Outline the rules of broadcasting in NumPy.</div>
+      <div class="q-marks">2 Marks</div>
+    </div>
+    <div class="q-body collapsed">
+      <div class="code-block">
+        <div class="code-label">Python Program <button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>
+import numpy as np
+
+# Rule 1: scalar broadcast
+a = np.array([1, 2, 3])
+print(a + 10)          # 10 broadcasts to [10,10,10]
+
+# Rule 2: shape (3,1) + shape (3,) → (3,3)
+col = np.array([[1],[2],[3]])
+row = np.array([10, 20, 30])
+print(col + row)
+
+# Rule 3: compatible shapes
+A = np.ones((3, 4))
+B = np.ones((4,))
+print((A + B).shape)   # (3,4)
+        </pre>
+      </div>
+      <div class="output-label">Output</div>
+      <div class="output-block">[11 12 13]
+[[11 21 31]
+ [12 22 32]
+ [13 23 33]]
+(3, 4)</div>
+      <div class="explanation">
+        <h4>📘 Broadcasting Rules</h4>
+        <p>Broadcasting allows NumPy to operate on arrays of different shapes without copying data:</p>
+        <table class="func-table">
+          <tr><th>Rule</th><th>Description</th></tr>
+          <tr><td>Rule 1</td><td>If arrays differ in number of dimensions, prepend 1s to the smaller shape</td></tr>
+          <tr><td>Rule 2</td><td>Arrays with size 1 along a dimension are stretched to match the other</td></tr>
+          <tr><td>Rule 3</td><td>Dimensions must be equal or one of them must be 1; otherwise error</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q9 -->
+  <div class="q-card">
+    <div class="q-header" onclick="toggle(this)">
+      <div class="q-num">9</div>
+      <div class="q-text">Consider a = np.array([1,4,6]). Identify elements equal to 7 and print Boolean output.</div>
+      <div class="q-marks">2 Marks</div>
+    </div>
+    <div class="q-body collapsed">
+      <div class="code-block">
+        <div class="code-label">Python Program <button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>
+import numpy as np
+
+a = np.array([1, 4, 6])
+
+# Boolean mask: check which elements equal 7
+result = (a == 7)
+
+print("Array         :", a)
+print("Elements == 7 :", result)
+print("Any element=7 :", np.any(result))
+        </pre>
+      </div>
+      <div class="output-label">Output</div>
+      <div class="output-block">Array         : [1 4 6]
+Elements == 7 : [False False False]
+Any element=7 : False</div>
+      <div class="explanation">
+        <h4>📘 Explanation</h4>
+        <p>Boolean masking uses comparison operators on arrays to produce a same-shaped array of True/False values. Here <code>a == 7</code> checks each element against 7 — since none equals 7, all values are False.</p>
+        <table class="func-table">
+          <tr><th>Operation</th><th>Purpose</th></tr>
+          <tr><td><code>arr == value</code></td><td>Element-wise equality check → Boolean array</td></tr>
+          <tr><td><code>np.any(mask)</code></td><td>True if at least one element is True</td></tr>
+          <tr><td><code>np.all(mask)</code></td><td>True if all elements are True</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q10 -->
+  <div class="q-card">
+    <div class="q-header" onclick="toggle(this)">
+      <div class="q-num">10</div>
+      <div class="q-text">Apply broadcasting: A = np.full((2,4),5); C = np.array([1,2,3,4]); print(A - C)</div>
+      <div class="q-marks">2 Marks</div>
+    </div>
+    <div class="q-body collapsed">
+      <div class="code-block">
+        <div class="code-label">Python Program <button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>
+import numpy as np
+
+A = np.full((2, 4), 5)
+C = np.array([1, 2, 3, 4])
+
+print("A:\n", A)
+print("C:", C)
+print("A - C:\n", A - C)
+        </pre>
+      </div>
+      <div class="output-label">Output</div>
+      <div class="output-block">A:
+ [[5 5 5 5]
+  [5 5 5 5]]
+C: [1 2 3 4]
+A - C:
+ [[4 3 2 1]
+  [4 3 2 1]]</div>
+      <div class="explanation">
+        <h4>📘 Explanation</h4>
+        <p>A has shape (2,4) and C has shape (4,). Broadcasting stretches C along axis 0 to match A's 2 rows. Each row of A becomes [5-1, 5-2, 5-3, 5-4] = [4, 3, 2, 1].</p>
+        <table class="func-table">
+          <tr><th>Function</th><th>Purpose</th></tr>
+          <tr><td><code>np.full(shape, fill)</code></td><td>Creates array of given shape filled with a constant value</td></tr>
+          <tr><td>Broadcasting (-)</td><td>Stretches smaller array to match larger for element-wise subtraction</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- CAT II 2-marks -->
+  <div class="cat-group" style="margin-top:2rem;">CAT – II &nbsp;·&nbsp; <span>February 2026</span> &nbsp;·&nbsp; NumPy Advanced + Pandas Basics</div>
+
+  <div class="q-card">
+    <div class="q-header" onclick="toggle(this)">
+      <div class="q-num">1</div>
+      <div class="q-text">Predict output: x = np.array([1,2,3,4,5]); print(x<=3); print((2*x)==(x**2))</div>
+      <div class="q-marks">2 Marks</div>
+    </div>
+    <div class="q-body collapsed">
+      <div class="code-block">
+        <div class="code-label">Python Program <button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>
+import numpy as np
+
+x = np.array([1, 2, 3, 4, 5])
+print(x <= 3)
+print((2 * x) == (x ** 2))
+        </pre>
+      </div>
+      <div class="output-label">Output</div>
+      <div class="output-block">[ True  True  True False False]
+[False  True False False False]</div>
+      <div class="explanation">
+        <h4>📘 Explanation</h4>
+        <p><code>x &lt;= 3</code>: elements 1,2,3 satisfy the condition → True; 4,5 → False.</p>
+        <p><code>(2*x) == (x**2)</code>: checks if 2x = x² for each element. Only x=2 satisfies 2×2=4=2².</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-header" onclick="toggle(this)">
+      <div class="q-num">2</div>
+      <div class="q-text">Show a structured array named emp with fields emp_id (int) and salary (float) using NumPy.</div>
+      <div class="q-marks">2 Marks</div>
+    </div>
+    <div class="q-body collapsed">
+      <div class="code-block">
+        <div class="code-label">Python Program <button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>
+import numpy as np
+
+# Define structured dtype
+dtype = np.dtype([('emp_id', np.int32), ('salary', np.float64)])
+
+# Create structured array with 2 employee records
+emp = np.array([(101, 55000.0), (102, 62000.0)], dtype=dtype)
+
+print("Structured Array:", emp)
+print("emp_ids :", emp['emp_id'])
+print("salaries:", emp['salary'])
+        </pre>
+      </div>
+      <div class="output-label">Output</div>
+      <div class="output-block">Structured Array: [(101, 55000.) (102, 62000.)]
+emp_ids : [101 102]
+salaries: [55000. 62000.]</div>
+      <div class="explanation">
+        <h4>📘 Explanation</h4>
+        <p>A structured array allows storing heterogeneous data (like database records) in a single NumPy array. Each field has its own name and dtype, accessible via <code>arr['field_name']</code>.</p>
+        <table class="func-table">
+          <tr><th>Concept</th><th>Purpose</th></tr>
+          <tr><td><code>np.dtype([...])</code></td><td>Defines compound data type with named fields</td></tr>
+          <tr><td><code>arr['field']</code></td><td>Access a column of the structured array by field name</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-header" onclick="toggle(this)">
+      <div class="q-num">3</div>
+      <div class="q-text">Show the difference between 'and' operator and '&' with: bool(42 and 0) and bin(42 & 0)</div>
+      <div class="q-marks">2 Marks</div>
+    </div>
+    <div class="q-body collapsed">
+      <div class="code-block">
+        <div class="code-label">Python Program <button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>
+# Logical AND — works on truthiness
+print("42 and 0 =", 42 and 0)        # returns 0 (falsy value)
+print("bool(42 and 0) =", bool(42 and 0))  # False
+
+# Bitwise AND — works bit by bit
+print("bin(42) =", bin(42))   # 0b101010
+print("bin(0)  =", bin(0))    # 0b000000
+print("42 & 0  =", 42 & 0)   # 0
+print("bin(42 & 0) =", bin(42 & 0))
+        </pre>
+      </div>
+      <div class="output-label">Output</div>
+      <div class="output-block">42 and 0 = 0
+bool(42 and 0) = False
+bin(42) = 0b101010
+bin(0)  = 0b0
+42 & 0  = 0
+bin(42 & 0) = 0b0</div>
+      <div class="explanation">
+        <h4>📘 Key Difference</h4>
+        <table class="func-table">
+          <tr><th>Operator</th><th>Type</th><th>Works On</th><th>Returns</th></tr>
+          <tr><td><code>and</code></td><td>Logical</td><td>Truthiness of objects</td><td>One of the operands</td></tr>
+          <tr><td><code>&amp;</code></td><td>Bitwise</td><td>Individual bits</td><td>Integer result of bit-by-bit AND</td></tr>
+        </table>
+        <p>In NumPy, use <code>&amp;</code> (not <code>and</code>) for element-wise boolean array operations.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-header" onclick="toggle(this)">
+      <div class="q-num">4</div>
+      <div class="q-text">Find the NumPy ufunc equivalent to '>' and apply it to x = np.arange(10); print(x>=5)</div>
+      <div class="q-marks">2 Marks</div>
+    </div>
+    <div class="q-body collapsed">
+      <div class="code-block">
+        <div class="code-label">Python Program <button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>
+import numpy as np
+
+x = np.arange(10)
+print("Array:", x)
+
+# Using comparison operator
+print("x >= 5 :", x >= 5)
+
+# Equivalent ufunc
+print("np.greater_equal(x,5):", np.greater_equal(x, 5))
+
+# '>' equivalent ufunc
+print("np.greater(x, 5):", np.greater(x, 5))
+        </pre>
+      </div>
+      <div class="output-label">Output</div>
+      <div class="output-block">Array: [0 1 2 3 4 5 6 7 8 9]
+x >= 5 : [False False False False False  True  True  True  True  True]
+np.greater_equal(x,5): [False False False False False  True  True  True  True  True]
+np.greater(x, 5): [False False False False False False  True  True  True  True]</div>
+      <div class="explanation">
+        <h4>📘 Comparison ufuncs</h4>
+        <table class="func-table">
+          <tr><th>Operator</th><th>NumPy ufunc</th></tr>
+          <tr><td><code>&gt;</code></td><td><code>np.greater()</code></td></tr>
+          <tr><td><code>&gt;=</code></td><td><code>np.greater_equal()</code></td></tr>
+          <tr><td><code>&lt;</code></td><td><code>np.less()</code></td></tr>
+          <tr><td><code>==</code></td><td><code>np.equal()</code></td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-header" onclick="toggle(this)">
+      <div class="q-num">5</div>
+      <div class="q-text">Differentiate between Series and DataFrame objects in Pandas.</div>
+      <div class="q-marks">2 Marks</div>
+    </div>
+    <div class="q-body collapsed">
+      <div class="code-block">
+        <div class="code-label">Python Program <button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>
+import pandas as pd
+
+# Series — 1D labeled array
+s = pd.Series([10, 20, 30], index=['a', 'b', 'c'])
+print("Series:\n", s)
+print("Type:", type(s))
+
+# DataFrame — 2D labeled table
+df = pd.DataFrame({'Name': ['Ram', 'Shyam'], 'Age': [25, 30]})
+print("\nDataFrame:\n", df)
+print("Type:", type(df))
+        </pre>
+      </div>
+      <div class="explanation">
+        <h4>📘 Differences</h4>
+        <table class="func-table">
+          <tr><th>Feature</th><th>Series</th><th>DataFrame</th></tr>
+          <tr><td>Dimensions</td><td>1-D</td><td>2-D</td></tr>
+          <tr><td>Structure</td><td>Single column with index</td><td>Multiple columns (like a table)</td></tr>
+          <tr><td>Access</td><td>s[label]</td><td>df['col'] or df.loc[row, col]</td></tr>
+          <tr><td>Analogy</td><td>Single Excel column</td><td>Entire Excel spreadsheet</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-header" onclick="toggle(this)">
+      <div class="q-num">6</div>
+      <div class="q-text">How is a DataFrame created from a Python list? Provide a suitable example.</div>
+      <div class="q-marks">2 Marks</div>
+    </div>
+    <div class="q-body collapsed">
+      <div class="code-block">
+        <div class="code-label">Python Program <button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>
+import pandas as pd
+
+# From a simple list (single column)
+lst = [10, 20, 30, 40]
+df1 = pd.DataFrame(lst, columns=['Values'])
+print("From list:\n", df1)
+
+# From list of lists (multiple rows/columns)
+data = [['Alice', 25], ['Bob', 30], ['Carol', 22]]
+df2 = pd.DataFrame(data, columns=['Name', 'Age'])
+print("\nFrom list of lists:\n", df2)
+        </pre>
+      </div>
+      <div class="explanation">
+        <h4>📘 Explanation</h4>
+        <p>A Pandas DataFrame can be created from a Python list by passing it to <code>pd.DataFrame()</code>. A flat list creates a single-column DataFrame; a list of lists creates multiple rows. The <code>columns</code> parameter assigns column names.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-header" onclick="toggle(this)">
+      <div class="q-num">7</div>
+      <div class="q-text">Using iloc and loc on pd.Series([10,20,30,40,50], index=['A','B','C','D','E']): retrieve position 2 and label 'C'.</div>
+      <div class="q-marks">2 Marks</div>
+    </div>
+    <div class="q-body collapsed">
+      <div class="code-block">
+        <div class="code-label">Python Program <button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>
+import pandas as pd
+
+data = pd.Series([10, 20, 30, 40, 50], index=['A', 'B', 'C', 'D', 'E'])
+print("Series:\n", data)
+
+# iloc — integer-based position
+print("\niloc at position 2:", data.iloc[2])
+
+# loc — label-based
+print("loc at label 'C':", data.loc['C'])
+        </pre>
+      </div>
+      <div class="output-label">Output</div>
+      <div class="output-block">iloc at position 2: 30
+loc at label 'C': 30</div>
+      <div class="explanation">
+        <h4>📘 Difference: iloc vs loc</h4>
+        <table class="func-table">
+          <tr><th>Accessor</th><th>Based On</th><th>Example</th></tr>
+          <tr><td><code>.iloc[]</code></td><td>Integer position (0-based)</td><td><code>s.iloc[2]</code> → 3rd element</td></tr>
+          <tr><td><code>.loc[]</code></td><td>Index label</td><td><code>s.loc['C']</code> → element at 'C'</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-header" onclick="toggle(this)">
+      <div class="q-num">8</div>
+      <div class="q-text">Illustrate how a Python dictionary can be converted into a DataFrame.</div>
+      <div class="q-marks">2 Marks</div>
+    </div>
+    <div class="q-body collapsed">
+      <div class="code-block">
+        <div class="code-label">Python Program <button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>
+import pandas as pd
+
+# Dictionary: keys become column names
+data = {
+    'Name'    : ['Ram', 'Shyam', 'Arun'],
+    'Rollno'  : [123, 124, 125],
+    'FDS_Mark': [80, 70, 35]
+}
+
+df = pd.DataFrame(data)
+print(df)
+        </pre>
+      </div>
+      <div class="output-label">Output</div>
+      <div class="output-block">    Name  Rollno  FDS_Mark
+0    Ram     123        80
+1  Shyam     124        70
+2   Arun     125        35</div>
+      <div class="explanation">
+        <h4>📘 Explanation</h4>
+        <p>When a dictionary is passed to <code>pd.DataFrame()</code>, each key becomes a column name and the corresponding list becomes the column values. All lists must have the same length.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-header" onclick="toggle(this)">
+      <div class="q-num">9</div>
+      <div class="q-text">Fetch only the Rollno column from a DataFrame containing Name, Rollno, FDS_Mark, DS_Mark.</div>
+      <div class="q-marks">2 Marks</div>
+    </div>
+    <div class="q-body collapsed">
+      <div class="code-block">
+        <div class="code-label">Python Program <button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>
+import pandas as pd
+
+data = {
+    'Name'   : ['Ram','Shyam','Arun','Gopal'],
+    'Rollno' : [123, 124, 125, 235],
+    'FDS_Mark': [80, 70, 35, 95],
+    'DS_Mark' : [85, 75, 60, 70]
+}
+df = pd.DataFrame(data)
+
+# Fetch single column — returns Series
+print(df['Rollno'])
+
+# Fetch as DataFrame (double brackets)
+print(df[['Rollno']])
+        </pre>
+      </div>
+      <div class="output-label">Output</div>
+      <div class="output-block">0    123
+1    124
+2    125
+3    235
+Name: Rollno, dtype: int64</div>
+      <div class="explanation">
+        <h4>📘 Explanation</h4>
+        <p><code>df['Rollno']</code> selects a single column and returns a <b>Series</b>. <code>df[['Rollno']]</code> (double brackets) returns a <b>DataFrame</b> with just that column. You can also use <code>df.Rollno</code> for simple column names.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-header" onclick="toggle(this)">
+      <div class="q-num">10</div>
+      <div class="q-text">Predict output: ser1 = pd.Series(['A','B','C'], index=[1,2,3]); ser2 = pd.Series(['D','E','F'], index=[4,5,6]); pd.concat([ser1,ser2])</div>
+      <div class="q-marks">2 Marks</div>
+    </div>
+    <div class="q-body collapsed">
+      <div class="code-block">
+        <div class="code-label">Python Program <button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>
+import pandas as pd
+
+ser1 = pd.Series(['A', 'B', 'C'], index=[1, 2, 3])
+ser2 = pd.Series(['D', 'E', 'F'], index=[4, 5, 6])
+result = pd.concat([ser1, ser2])
+print(result)
+        </pre>
+      </div>
+      <div class="output-label">Output</div>
+      <div class="output-block">1    A
+2    B
+3    C
+4    D
+5    E
+6    F
+dtype: object</div>
+      <div class="explanation">
+        <h4>📘 Explanation</h4>
+        <p><code>pd.concat()</code> joins multiple Series or DataFrames along an axis. Here it stacks ser1 and ser2 vertically, preserving original indices (1–3 and 4–6).</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- CAT III 2-marks -->
+  <div class="cat-group" style="margin-top:2rem;">CAT – III &nbsp;·&nbsp; <span>March 2026</span> &nbsp;·&nbsp; Pandas Advanced + Matplotlib</div>
+
+  <div class="q-card">
+    <div class="q-header" onclick="toggle(this)">
+      <div class="q-num">1</div>
+      <div class="q-text">Differentiate between Series and DataFrame in Pandas.</div>
+      <div class="q-marks">2 Marks</div>
+    </div>
+    <div class="q-body collapsed">
+      <div class="explanation">
+        <h4>📘 (Refer to CAT-II Q5 above — same question)</h4>
+        <table class="func-table">
+          <tr><th>Feature</th><th>Series</th><th>DataFrame</th></tr>
+          <tr><td>Dimensions</td><td>1D labeled array</td><td>2D table with rows and columns</td></tr>
+          <tr><td>Columns</td><td>Single column</td><td>Multiple columns of possibly different types</td></tr>
+          <tr><td>Creation</td><td><code>pd.Series(list)</code></td><td><code>pd.DataFrame(dict)</code></td></tr>
+          <tr><td>Index</td><td>Row index only</td><td>Row index + column names</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-header" onclick="toggle(this)">
+      <div class="q-num">2</div>
+      <div class="q-text">Identify the purpose of the groupby() function in Pandas.</div>
+      <div class="q-marks">2 Marks</div>
+    </div>
+    <div class="q-body collapsed">
+      <div class="code-block">
+        <div class="code-label">Python Program <button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>
+import pandas as pd
+
+data = {'Region': ['South','North','South','North'],
+        'Sales' : [110000, 60000, 60000, 15000]}
+df = pd.DataFrame(data)
+
+# groupby: group rows by 'Region', then aggregate
+grouped = df.groupby('Region')['Sales'].sum()
+print(grouped)
+        </pre>
+      </div>
+      <div class="output-label">Output</div>
+      <div class="output-block">Region
+North    75000
+South    170000
+Name: Sales, dtype: int64</div>
+      <div class="explanation">
+        <h4>📘 Explanation</h4>
+        <p><code>groupby()</code> splits the DataFrame into groups based on unique values of a column, applies an aggregation function (sum, mean, count, etc.), and combines the results. It follows the <b>Split → Apply → Combine</b> pattern, essential for data analysis.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-header" onclick="toggle(this)">
+      <div class="q-num">3</div>
+      <div class="q-text">Show how missing values are handled in a Pandas DataFrame.</div>
+      <div class="q-marks">2 Marks</div>
+    </div>
+    <div class="q-body collapsed">
+      <div class="code-block">
+        <div class="code-label">Python Program <button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>
+import pandas as pd
+import numpy as np
+
+df = pd.DataFrame({'A': [1, np.nan, 3], 'B': [4, 5, np.nan]})
+print("Original:\n", df)
+
+print("\nIdentify NaN:\n", df.isnull())
+print("\nDrop rows with NaN:\n", df.dropna())
+print("\nFill NaN with 0:\n", df.fillna(0))
+        </pre>
+      </div>
+      <div class="explanation">
+        <h4>📘 Key Functions</h4>
+        <table class="func-table">
+          <tr><th>Function</th><th>Purpose</th></tr>
+          <tr><td><code>df.isnull()</code></td><td>Returns boolean DataFrame — True where NaN</td></tr>
+          <tr><td><code>df.dropna()</code></td><td>Removes rows/columns containing NaN</td></tr>
+          <tr><td><code>df.fillna(val)</code></td><td>Replaces NaN with a specified value</td></tr>
+          <tr><td><code>df.ffill()</code></td><td>Forward-fill: propagate last valid value forward</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-header" onclick="toggle(this)">
+      <div class="q-num">4</div>
+      <div class="q-text">Write Python code using Pandas merge() to merge two DataFrames and list the necessary parameters.</div>
+      <div class="q-marks">2 Marks</div>
+    </div>
+    <div class="q-body collapsed">
+      <div class="code-block">
+        <div class="code-label">Python Program <button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>
+import pandas as pd
+
+df1 = pd.DataFrame({'ID': [1,2,3], 'Name': ['Ram','Bob','Carol']})
+df2 = pd.DataFrame({'ID': [1,2,4], 'Score': [90, 85, 70]})
+
+# Inner merge on 'ID'
+merged = pd.merge(df1, df2, on='ID', how='inner')
+print(merged)
+        </pre>
+      </div>
+      <div class="output-label">Output</div>
+      <div class="output-block">   ID  Name  Score
+0   1   Ram     90
+1   2   Bob     85</div>
+      <div class="explanation">
+        <h4>📘 merge() Parameters</h4>
+        <table class="func-table">
+          <tr><th>Parameter</th><th>Purpose</th></tr>
+          <tr><td><code>on</code></td><td>Column name to join on (must exist in both DataFrames)</td></tr>
+          <tr><td><code>how</code></td><td>Join type: 'inner', 'outer', 'left', 'right'</td></tr>
+          <tr><td><code>left_on/right_on</code></td><td>Use when key columns have different names</td></tr>
+          <tr><td><code>suffixes</code></td><td>Suffix for overlapping column names</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-header" onclick="toggle(this)">
+      <div class="q-num">5</div>
+      <div class="q-text">Show how to append one DataFrame to another using append() in Pandas.</div>
+      <div class="q-marks">2 Marks</div>
+    </div>
+    <div class="q-body collapsed">
+      <div class="code-block">
+        <div class="code-label">Python Program <button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>
+import pandas as pd
+
+df1 = pd.DataFrame({'Name': ['Ram', 'Bob'], 'Score': [90, 85]})
+df2 = pd.DataFrame({'Name': ['Carol'], 'Score': [78]})
+
+# append() is deprecated in newer Pandas — use pd.concat()
+result = pd.concat([df1, df2], ignore_index=True)
+print(result)
+        </pre>
+      </div>
+      <div class="output-label">Output</div>
+      <div class="output-block">    Name  Score
+0    Ram     90
+1    Bob     85
+2  Carol     78</div>
+      <div class="explanation">
+        <h4>📘 Note</h4>
+        <p><code>df.append()</code> was deprecated in Pandas 1.4 and removed in 2.0. The modern equivalent is <code>pd.concat([df1, df2], ignore_index=True)</code>. <code>ignore_index=True</code> resets the integer index in the result.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-header" onclick="toggle(this)">
+      <div class="q-num">6</div>
+      <div class="q-text">Classify the different types of plots supported by Matplotlib.</div>
+      <div class="q-marks">2 Marks</div>
+    </div>
+    <div class="q-body collapsed">
+      <div class="explanation">
+        <h4>📘 Plot Types in Matplotlib</h4>
+        <table class="func-table">
+          <tr><th>Plot Type</th><th>Function</th><th>Use Case</th></tr>
+          <tr><td>Line Plot</td><td><code>plt.plot()</code></td><td>Trends over time</td></tr>
+          <tr><td>Bar Chart</td><td><code>plt.bar()</code></td><td>Comparing categories</td></tr>
+          <tr><td>Histogram</td><td><code>plt.hist()</code></td><td>Frequency distribution</td></tr>
+          <tr><td>Scatter Plot</td><td><code>plt.scatter()</code></td><td>Relationship between two variables</td></tr>
+          <tr><td>Pie Chart</td><td><code>plt.pie()</code></td><td>Proportions of a whole</td></tr>
+          <tr><td>Box Plot</td><td><code>plt.boxplot()</code></td><td>Distribution & outliers</td></tr>
+          <tr><td>Area Plot</td><td><code>plt.fill_between()</code></td><td>Cumulative quantities</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-header" onclick="toggle(this)">
+      <div class="q-num">7</div>
+      <div class="q-text">Outline the role of labels, titles, and legends in a Matplotlib plot.</div>
+      <div class="q-marks">2 Marks</div>
+    </div>
+    <div class="q-body collapsed">
+      <div class="code-block">
+        <div class="code-label">Python Program <button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>
+import matplotlib.pyplot as plt
+
+x = [1, 2, 3, 4]
+plt.plot(x, [10,20,15,25], label='Sales 2025')
+plt.plot(x, [8, 15,18,22], label='Sales 2024')
+
+plt.title('Annual Sales Comparison')  # Title at top
+plt.xlabel('Quarter')                 # X-axis label
+plt.ylabel('Sales (₹ thousands)')     # Y-axis label
+plt.legend()                          # Show legend box
+plt.grid(True)
+plt.show()
+        </pre>
+      </div>
+      <div class="explanation">
+        <h4>📘 Roles Explained</h4>
+        <table class="func-table">
+          <tr><th>Element</th><th>Function</th><th>Role</th></tr>
+          <tr><td>Title</td><td><code>plt.title()</code></td><td>Describes what the plot is about</td></tr>
+          <tr><td>X Label</td><td><code>plt.xlabel()</code></td><td>Names the horizontal axis</td></tr>
+          <tr><td>Y Label</td><td><code>plt.ylabel()</code></td><td>Names the vertical axis</td></tr>
+          <tr><td>Legend</td><td><code>plt.legend()</code></td><td>Identifies multiple data series with colors/labels</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-header" onclick="toggle(this)">
+      <div class="q-num">8</div>
+      <div class="q-text">Write Python code using Matplotlib to generate and customize a line plot representing given data.</div>
+      <div class="q-marks">2 Marks</div>
+    </div>
+    <div class="q-body collapsed">
+      <div class="code-block">
+        <div class="code-label">Python Program <button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>
+import matplotlib.pyplot as plt
+
+months = ['Jan','Feb','Mar','Apr','May']
+sales  = [15000, 18000, 20000, 22000, 25000]
+
+plt.figure(figsize=(8, 4))
+plt.plot(months, sales, color='blue', marker='o',
+         linestyle='--', linewidth=2, markersize=8,
+         label='Monthly Sales')
+
+plt.title('Monthly Sales Trend', fontsize=14, fontweight='bold')
+plt.xlabel('Month')
+plt.ylabel('Sales (₹)')
+plt.legend()
+plt.grid(True, linestyle='--', alpha=0.5)
+plt.tight_layout()
+plt.show()
+        </pre>
+      </div>
+      <div class="explanation">
+        <h4>📘 Customization Parameters</h4>
+        <table class="func-table">
+          <tr><th>Parameter</th><th>Purpose</th></tr>
+          <tr><td><code>color</code></td><td>Line color</td></tr>
+          <tr><td><code>marker</code></td><td>Point marker style ('o', 's', '^')</td></tr>
+          <tr><td><code>linestyle</code></td><td>Line style ('-', '--', ':', '-.')</td></tr>
+          <tr><td><code>linewidth</code></td><td>Thickness of the line</td></tr>
+          <tr><td><code>figsize</code></td><td>Figure size in inches (width, height)</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-header" onclick="toggle(this)">
+      <div class="q-num">9</div>
+      <div class="q-text">Construct a bar chart using Matplotlib with suitable axis labels.</div>
+      <div class="q-marks">2 Marks</div>
+    </div>
+    <div class="q-body collapsed">
+      <div class="code-block">
+        <div class="code-label">Python Program <button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>
+import matplotlib.pyplot as plt
+
+categories = ['Electronics', 'Furniture', 'Clothing', 'Grocery']
+values = [15000, 8000, 6000, 5000]
+colors = ['#4c6ef5','#40c057','#fd7e14','#e64980']
+
+plt.figure(figsize=(8, 5))
+plt.bar(categories, values, color=colors, edgecolor='black', width=0.5)
+
+plt.title('Sales by Category', fontsize=14)
+plt.xlabel('Product Category')
+plt.ylabel('Sales Amount (₹)')
+plt.xticks(rotation=15)
+plt.grid(axis='y', alpha=0.4)
+plt.tight_layout()
+plt.show()
+        </pre>
+      </div>
+      <div class="explanation">
+        <h4>📘 Key bar() Parameters</h4>
+        <table class="func-table">
+          <tr><th>Parameter</th><th>Purpose</th></tr>
+          <tr><td><code>x, height</code></td><td>Category labels and bar heights</td></tr>
+          <tr><td><code>color</code></td><td>Bar fill color(s)</td></tr>
+          <tr><td><code>edgecolor</code></td><td>Border color of bars</td></tr>
+          <tr><td><code>width</code></td><td>Width of each bar (default 0.8)</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-header" onclick="toggle(this)">
+      <div class="q-num">10</div>
+      <div class="q-text">Using Matplotlib, generate a histogram to represent the frequency distribution of a dataset.</div>
+      <div class="q-marks">2 Marks</div>
+    </div>
+    <div class="q-body collapsed">
+      <div class="code-block">
+        <div class="code-label">Python Program <button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>
+import matplotlib.pyplot as plt
+import numpy as np
+
+# Generate random data (e.g., daily rainfall)
+np.random.seed(10)
+data = np.random.normal(loc=50, scale=15, size=365)
+
+plt.figure(figsize=(8, 5))
+plt.hist(data, bins=20, color='steelblue', edgecolor='white', alpha=0.8)
+
+plt.title('Frequency Distribution of Daily Rainfall', fontsize=13)
+plt.xlabel('Rainfall (mm)')
+plt.ylabel('Frequency (Days)')
+plt.grid(axis='y', alpha=0.4)
+plt.tight_layout()
+plt.show()
+        </pre>
+      </div>
+      <div class="explanation">
+        <h4>📘 Key hist() Parameters</h4>
+        <table class="func-table">
+          <tr><th>Parameter</th><th>Purpose</th></tr>
+          <tr><td><code>bins</code></td><td>Number of intervals/bars</td></tr>
+          <tr><td><code>color</code></td><td>Bar fill color</td></tr>
+          <tr><td><code>edgecolor</code></td><td>Border color of each bin</td></tr>
+          <tr><td><code>alpha</code></td><td>Transparency (0=transparent, 1=solid)</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end 2marks section -->
+
+
+<!-- ==================== 10 MARKS ==================== -->
+<div id="ten" class="section">
+
+  <div class="section-header">
+    <span class="badge badge-10">10 Marks</span>
+    <h2>Long Answer Questions — All CATs</h2>
+  </div>
+
+  <!-- CAT I 10M -->
+  <div class="cat-group">CAT – I &nbsp;·&nbsp; <span>January 2026</span></div>
+
+  <div class="q-card green">
+    <div class="q-header" onclick="toggle(this)">
+      <div class="q-num">11</div>
+      <div class="q-text">Illustrate the basic Python data types and their characteristics with examples.</div>
+      <div class="q-marks">10 Marks</div>
+    </div>
+    <div class="q-body collapsed">
+      <div class="code-block">
+        <div class="code-label">Python Program <button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>
+# ============================================
+# BASIC PYTHON DATA TYPES — Complete Demo
+# ============================================
+
+# 1. int — Integer (whole numbers)
+age = 21
+print(f"int  : {age}, type: {type(age)}")
+
+# 2. float — Decimal numbers
+pi = 3.14159
+print(f"float: {pi}, type: {type(pi)}")
+
+# 3. complex — Complex numbers
+c = 3 + 4j
+print(f"complex: {c}, real={c.real}, imag={c.imag}")
+
+# 4. str — String (text)
+name = "Data Visualization"
+print(f"str  : '{name}', length={len(name)}")
+print(f"  upper: {name.upper()}, slice: {name[:4]}")
+
+# 5. bool — Boolean (True/False)
+flag = True
+print(f"bool : {flag}, type: {type(flag)}")
+print(f"  bool(0)={bool(0)}, bool(1)={bool(1)}")
+
+# 6. list — Ordered, mutable sequence
+lst = [10, 20, 30, "hello", 3.14]
+print(f"\nlist : {lst}")
+lst.append(99)
+print(f"  after append(99): {lst}")
+print(f"  slice [1:3]: {lst[1:3]}")
+
+# 7. tuple — Ordered, immutable sequence
+tpl = (1, 2, 3, "fixed")
+print(f"\ntuple: {tpl}")
+print(f"  element 0: {tpl[0]}, count of 1: {tpl.count(1)}")
+
+# 8. set — Unordered unique elements
+s = {1, 2, 2, 3, 3, 4}
+print(f"\nset  : {s}  (duplicates removed)")
+s.add(5); print(f"  after add(5): {s}")
+
+# 9. dict — Key-value pairs
+person = {'name': 'Ram', 'age': 21, 'gpa': 9.1}
+print(f"\ndict : {person}")
+print(f"  keys: {list(person.keys())}")
+print(f"  get name: {person['name']}")
+
+# 10. NoneType
+x = None
+print(f"\nNone : {x}, type: {type(x)}")
+        </pre>
+      </div>
+      <div class="explanation">
+        <h4>📘 Explanation & Characteristics</h4>
+        <table class="func-table">
+          <tr><th>Data Type</th><th>Mutable?</th><th>Ordered?</th><th>Key Characteristics</th></tr>
+          <tr><td><code>int</code></td><td>No</td><td>—</td><td>Whole numbers, unlimited precision in Python</td></tr>
+          <tr><td><code>float</code></td><td>No</td><td>—</td><td>Decimal/floating-point numbers (64-bit)</td></tr>
+          <tr><td><code>complex</code></td><td>No</td><td>—</td><td>a+bj form; .real and .imag attributes</td></tr>
+          <tr><td><code>str</code></td><td>No</td><td>Yes</td><td>Immutable sequence of Unicode characters</td></tr>
+          <tr><td><code>bool</code></td><td>No</td><td>—</td><td>Subclass of int; True=1, False=0</td></tr>
+          <tr><td><code>list</code></td><td>Yes</td><td>Yes</td><td>Allows duplicates; supports append, pop, sort</td></tr>
+          <tr><td><code>tuple</code></td><td>No</td><td>Yes</td><td>Immutable list; faster than list; hashable</td></tr>
+          <tr><td><code>set</code></td><td>Yes</td><td>No</td><td>Unique elements; supports union, intersection</td></tr>
+          <tr><td><code>dict</code></td><td>Yes</td><td>Yes (3.7+)</td><td>Key-value pairs; O(1) lookup; keys must be hashable</td></tr>
+          <tr><td><code>NoneType</code></td><td>No</td><td>—</td><td>Represents absence of value; singleton object</td></tr>
+        </table>
+        <p>Python uses <b>dynamic typing</b> — the type of a variable is determined at runtime and can change. Use <code>type()</code> to inspect and <code>isinstance()</code> to check type membership.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- CAT II 10M Q12 -->
+  <div class="cat-group" style="margin-top:2rem;">CAT – II &nbsp;·&nbsp; <span>February 2026</span></div>
+
+  <div class="q-card green">
+    <div class="q-header" onclick="toggle(this)">
+      <div class="q-num">12</div>
+      <div class="q-text">Using A = np.array([[5,10,15,20],[25,30,35,40],[45,50,55,60]]): display attributes, slicing, reverse, copy, concatenation, stacking.</div>
+      <div class="q-marks">10 Marks</div>
+    </div>
+    <div class="q-body collapsed">
+      <div class="code-block">
+        <div class="code-label">Python Program <button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>
+import numpy as np
+
+A = np.array([[5, 10, 15, 20],
+              [25, 30, 35, 40],
+              [45, 50, 55, 60]])
+
+# a) Array Attributes
+print("=== a) Array Attributes ===")
+print("Shape  :", A.shape)
+print("Size   :", A.size)
+print("ndim   :", A.ndim)
+print("dtype  :", A.dtype)
+print("itemsize:", A.itemsize, "bytes")
+
+# b) Slicing — last two rows, first three columns
+print("\n=== b) Last 2 rows, First 3 columns ===")
+sliced = A[1:, :3]
+print(sliced)
+
+# c) Reverse the array
+print("\n=== c) Reversed Array ===")
+reversed_A = A[::-1, ::-1]
+print(reversed_A)
+
+# d) Copy — first two rows, two columns
+print("\n=== d) Copy D (first 2 rows, 2 cols) ===")
+D = A[:2, :2].copy()
+print(D)
+
+# e) Concatenation — add new row
+print("\n=== e) Concatenation ===")
+B = np.array([[65, 70, 75, 80]])
+A_new = np.concatenate((A, B), axis=0)
+print(A_new)
+
+# f) Stacking
+print("\n=== f) Vertical & Horizontal Stacking ===")
+vstacked = np.vstack((A, B))
+print("vstack:\n", vstacked)
+
+hstacked = np.hstack((A, A))
+print("hstack:\n", hstacked)
+        </pre>
+      </div>
+      <div class="output-label">Output (key parts)</div>
+      <div class="output-block">Shape  : (3, 4)  |  Size: 12  |  ndim: 2  |  dtype: int64
+
+Sliced (last2 rows, first3 cols):
+ [[25 30 35]
+  [45 50 55]]
+
+Reversed: [[60 55 50 45] [40 35 30 25] [20 15 10  5]]
+
+D (copy): [[ 5 10] [25 30]]
+
+After concat: [[ 5 10 15 20] [25 30 35 40] [45 50 55 60] [65 70 75 80]]</div>
+      <div class="explanation">
+        <h4>📘 Functions & Their Roles</h4>
+        <table class="func-table">
+          <tr><th>Operation</th><th>Code</th><th>Explanation</th></tr>
+          <tr><td>Attributes</td><td><code>.shape, .size, .ndim, .dtype</code></td><td>Metadata about the array structure</td></tr>
+          <tr><td>Slicing</td><td><code>A[1:, :3]</code></td><td>Rows from index 1, columns 0–2</td></tr>
+          <tr><td>Reverse</td><td><code>A[::-1, ::-1]</code></td><td>Step -1 reverses both axes</td></tr>
+          <tr><td>Copy</td><td><code>.copy()</code></td><td>Creates an independent copy; changes don't affect original</td></tr>
+          <tr><td>Concatenate</td><td><code>np.concatenate(axis=0)</code></td><td>Joins arrays along specified axis</td></tr>
+          <tr><td>vstack</td><td><code>np.vstack()</code></td><td>Stacks arrays vertically (row-wise)</td></tr>
+          <tr><td>hstack</td><td><code>np.hstack()</code></td><td>Stacks arrays horizontally (column-wise)</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-card green">
+    <div class="q-header" onclick="toggle(this)">
+      <div class="q-num">13</div>
+      <div class="q-text">Explain with minimum five NumPy ufuncs that enhance performance and efficiency in numerical computations.</div>
+      <div class="q-marks">10 Marks</div>
+    </div>
+    <div class="q-body collapsed">
+      <div class="code-block">
+        <div class="code-label">Python Program <button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>
+import numpy as np
+
+a = np.array([1, 4, 9, 16, 25])
+b = np.array([2, 3, 4, 5, 6])
+
+# 1. np.sqrt() — element-wise square root
+print("1. np.sqrt():", np.sqrt(a))
+
+# 2. np.exp() — e raised to each element
+print("2. np.exp() :", np.exp([0, 1, 2]))
+
+# 3. np.log() — natural logarithm
+print("3. np.log() :", np.log(a))
+
+# 4. np.add() — element-wise addition
+print("4. np.add() :", np.add(a, b))
+
+# 5. np.multiply() — element-wise multiplication
+print("5. np.multiply():", np.multiply(a, b))
+
+# 6. np.sin() / np.cos() — trigonometric
+angles = np.array([0, np.pi/6, np.pi/4, np.pi/2])
+print("6. np.sin() :", np.round(np.sin(angles), 3))
+
+# 7. np.cumsum() — cumulative sum
+print("7. np.cumsum():", np.cumsum(b))
+
+# 8. np.absolute() — absolute value
+c = np.array([-5, -3, 0, 2, -1])
+print("8. np.absolute():", np.absolute(c))
+        </pre>
+      </div>
+      <div class="output-label">Output</div>
+      <div class="output-block">1. np.sqrt(): [1. 2. 3. 4. 5.]
+2. np.exp() : [1.    2.718 7.389]
+3. np.log() : [0.    1.386 2.197 2.773 3.219]
+4. np.add() : [ 3  7 13 21 31]
+5. np.multiply(): [ 2 12 36 80 150]
+6. np.sin() : [0.    0.5   0.707 1.   ]
+7. np.cumsum(): [ 2  5  9 14 20]
+8. np.absolute(): [5 3 0 2 1]</div>
+      <div class="explanation">
+        <h4>📘 Universal Functions (ufuncs) — Explained</h4>
+        <p>NumPy ufuncs (Universal Functions) are vectorized wrappers around C-level operations that execute element-wise on arrays without Python loops — making them extremely fast.</p>
+        <table class="func-table">
+          <tr><th>ufunc</th><th>Category</th><th>Purpose</th></tr>
+          <tr><td><code>np.sqrt()</code></td><td>Math</td><td>Square root of each element</td></tr>
+          <tr><td><code>np.exp()</code></td><td>Math</td><td>Euler's number e raised to each element</td></tr>
+          <tr><td><code>np.log()</code></td><td>Math</td><td>Natural logarithm (base e)</td></tr>
+          <tr><td><code>np.add()</code></td><td>Arithmetic</td><td>Element-wise addition (equivalent to +)</td></tr>
+          <tr><td><code>np.multiply()</code></td><td>Arithmetic</td><td>Element-wise multiplication</td></tr>
+          <tr><td><code>np.sin/cos/tan()</code></td><td>Trigonometry</td><td>Trig functions on radian values</td></tr>
+          <tr><td><code>np.cumsum()</code></td><td>Aggregation</td><td>Running cumulative sum along axis</td></tr>
+          <tr><td><code>np.absolute()</code></td><td>Math</td><td>Absolute value of each element</td></tr>
+        </table>
+        <p><b>Performance:</b> ufuncs bypass Python's interpreter loop, using pre-compiled C code. On 10 million elements, ufuncs can be 50–100× faster than equivalent Python loops.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-card green">
+    <div class="q-header" onclick="toggle(this)">
+      <div class="q-num">14</div>
+      <div class="q-text">a) Broadcasting: binary operations on arrays of different sizes. b) Daily rainfall histogram for a year.</div>
+      <div class="q-marks">10 Marks</div>
+    </div>
+    <div class="q-body collapsed">
+      <div class="code-block">
+        <div class="code-label">Part a — Broadcasting <button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>
+import numpy as np
+
+# Addition — (3,3) + (3,)
+A = np.array([[1,2,3],[4,5,6],[7,8,9]])
+b = np.array([10, 20, 30])
+print("A + b (broadcast):\n", A + b)
+
+# Subtraction — (3,1) - (1,3)
+col = np.array([[1],[2],[3]])
+row = np.array([100, 200, 300])
+print("\ncol - row:\n", col - row)
+
+# Multiplication — (2,4) * scalar
+M = np.array([[1,2,3,4],[5,6,7,8]])
+print("\nM * 5:\n", M * 5)
+        </pre>
+      </div>
+      <div class="output-label">Output</div>
+      <div class="output-block">A + b:
+ [[11 22 33]
+  [14 25 36]
+  [17 28 39]]
+
+col - row:
+ [[ -99  -199  -299]
+  [ -98  -198  -298]
+  [ -97  -197  -297]]
+
+M * 5:
+ [[ 5 10 15 20]
+  [25 30 35 40]]</div>
+      <div class="code-block" style="margin-top:1rem;">
+        <div class="code-label">Part b — Daily Rainfall Histogram <button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>
+import numpy as np
+import matplotlib.pyplot as plt
+
+np.random.seed(7)
+# Simulate daily rainfall for 365 days (mm)
+rainfall = np.random.exponential(scale=8, size=365)
+rainfall[rainfall < 0.5] = 0  # dry days
+
+print("Total rainfall :", round(np.sum(rainfall), 2), "mm")
+print("Max daily      :", round(np.max(rainfall), 2), "mm")
+print("Rainy days     :", np.sum(rainfall > 0))
+
+plt.figure(figsize=(10, 5))
+plt.hist(rainfall, bins=25, color='steelblue',
+         edgecolor='white', alpha=0.85)
+plt.title('Daily Rainfall Distribution — 1 Year', fontsize=14)
+plt.xlabel('Rainfall (mm)')
+plt.ylabel('Number of Days')
+plt.grid(axis='y', alpha=0.4)
+plt.tight_layout()
+plt.show()
+        </pre>
+      </div>
+      <div class="explanation">
+        <h4>📘 Concepts Covered</h4>
+        <table class="func-table">
+          <tr><th>Concept</th><th>Explanation</th></tr>
+          <tr><td>Broadcasting (+,-,*)</td><td>NumPy stretches smaller arrays along size-1 dimensions automatically</td></tr>
+          <tr><td><code>np.random.exponential()</code></td><td>Simulates realistic skewed rainfall data</td></tr>
+          <tr><td><code>plt.hist(bins=n)</code></td><td>Groups data into n intervals and plots frequency</td></tr>
+          <tr><td><code>np.sum(arr > val)</code></td><td>Counts elements satisfying condition (Boolean sum)</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- CAT II 10M Q11 -->
+  <div class="q-card green">
+    <div class="q-header" onclick="toggle(this)">
+      <div class="q-num">CAT-II Q11</div>
+      <div class="q-text">HR Analytics: Boolean masking & Fancy Indexing on salary/experience arrays.</div>
+      <div class="q-marks">10 Marks</div>
+    </div>
+    <div class="q-body collapsed">
+      <div class="code-block">
+        <div class="code-label">Python Program <button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>
+import numpy as np
+
+salary     = np.array([35, 28, 42, 55, 30, 60, 25, 48, 70, 40])
+experience = np.array([ 2,  1,  5,  8,  3, 10,  1,  6, 12,  4])
+
+# a) Salaries >= 50 thousand
+print("a) Salary >= 50k:", salary[salary >= 50])
+
+# b) Employees with < 2 years experience
+print("b) < 2 yrs exp   :", any(experience < 2))
+
+# c) Fancy indexing: positions 2, 4, 9
+print("c) Salary at idx [2,4,9]:", salary[[2, 4, 9]])
+
+# d) Employees with >5 years experience
+print("d) Salary (exp>5):", salary[experience > 5])
+
+# e) Update salaries at index 1 and 6 to 32
+salary[[1, 6]] = 32
+print("e) Updated salary:", salary)
+        </pre>
+      </div>
+      <div class="output-label">Output</div>
+      <div class="output-block">a) Salary >= 50k: [55 60 70]
+b) < 2 yrs exp   : True
+c) Salary at idx [2,4,9]: [42 30 40]
+d) Salary (exp>5): [55 60 48 70]
+e) Updated salary: [35 32 42 55 30 60 32 48 70 40]</div>
+      <div class="explanation">
+        <h4>📘 Boolean Masking vs Fancy Indexing</h4>
+        <table class="func-table">
+          <tr><th>Technique</th><th>How It Works</th><th>Example</th></tr>
+          <tr><td>Boolean Masking</td><td>Condition creates True/False array; True elements are selected</td><td><code>salary[salary>=50]</code></td></tr>
+          <tr><td>Fancy Indexing</td><td>Pass a list of specific integer indices to select</td><td><code>salary[[2,4,9]]</code></td></tr>
+          <tr><td>Combined</td><td>Use one array's condition to index another</td><td><code>salary[experience>5]</code></td></tr>
+          <tr><td>Fancy Assignment</td><td>Use index list to update multiple elements at once</td><td><code>salary[[1,6]]=32</code></td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-card green">
+    <div class="q-header" onclick="toggle(this)">
+      <div class="q-num">CAT-II Q12</div>
+      <div class="q-text">Explain Pandas Series and DataFrame data structures with labeling and element access examples.</div>
+      <div class="q-marks">10 Marks</div>
+    </div>
+    <div class="q-body collapsed">
+      <div class="code-block">
+        <div class="code-label">Python Program <button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>
+import pandas as pd
+
+# ---- SERIES ----
+print("=" * 40)
+print("SERIES")
+print("=" * 40)
+
+s = pd.Series([85, 90, 78, 92, 88],
+              index=['Maths','Science','English','Tamil','CS'])
+print(s)
+
+print("\nLabel access (loc)   :", s.loc['Maths'])
+print("Position access (iloc):", s.iloc[0])
+print("Slicing [1:3]:\n", s.iloc[1:3])
+print("Boolean mask (>85):\n", s[s > 85])
+
+# ---- DATAFRAME ----
+print("\n" + "=" * 40)
+print("DATAFRAME")
+print("=" * 40)
+
+data = {
+    'Name'   : ['Ram', 'Shyam', 'Priya', 'Gopal'],
+    'Rollno' : [101, 102, 103, 104],
+    'Mark'   : [85, 90, 78, 92]
+}
+df = pd.DataFrame(data, index=['R1','R2','R3','R4'])
+print(df)
+
+print("\nColumn access      :", df['Mark'].tolist())
+print("Row loc 'R2':\n", df.loc['R2'])
+print("Cell [R3, Mark]    :", df.loc['R3', 'Mark'])
+print("iloc row 0:\n", df.iloc[0])
+print("\nFiltered (Mark>80):\n", df[df['Mark'] > 80])
+        </pre>
+      </div>
+      <div class="explanation">
+        <h4>📘 Complete Summary</h4>
+        <table class="func-table">
+          <tr><th>Structure</th><th>Indexing Method</th><th>Usage</th></tr>
+          <tr><td>Series</td><td><code>s['label']</code> or <code>s.loc['label']</code></td><td>Label-based element access</td></tr>
+          <tr><td>Series</td><td><code>s.iloc[n]</code></td><td>Position-based access</td></tr>
+          <tr><td>DataFrame</td><td><code>df['col']</code></td><td>Single column (returns Series)</td></tr>
+          <tr><td>DataFrame</td><td><code>df.loc[row, col]</code></td><td>Label-based row & column</td></tr>
+          <tr><td>DataFrame</td><td><code>df.iloc[r, c]</code></td><td>Integer-based row & column</td></tr>
+          <tr><td>Both</td><td><code>df[condition]</code></td><td>Boolean filtering</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-card green">
+    <div class="q-header" onclick="toggle(this)">
+      <div class="q-num">CAT-II Q13</div>
+      <div class="q-text">Handle missing data in an employee DataFrame (EmpID, Age, Department, Salary) with NaN values.</div>
+      <div class="q-marks">10 Marks</div>
+    </div>
+    <div class="q-body collapsed">
+      <div class="code-block">
+        <div class="code-label">Python Program <button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>
+import pandas as pd
+import numpy as np
+
+data = {
+    'EmpID'     : [101, 102, 103, 104, 105],
+    'Age'       : [25, np.nan, 30, 28, np.nan],
+    'Department': ['HR', 'IT', np.nan, 'Finance', 'IT'],
+    'Salary'    : [35000, 42000, np.nan, 40000, 38000]
+}
+df = pd.DataFrame(data)
+print("Original DataFrame:\n", df)
+
+# a) Identify missing values
+print("\na) Missing values:\n", df.isnull())
+print("   Count:\n", df.isnull().sum())
+
+# b) Drop rows with any NaN
+df_dropped = df.dropna()
+print("\nb) After dropna():\n", df_dropped)
+
+# c) Fill numerical NaN with mean
+df_filled = df.copy()
+df_filled['Age']    = df_filled['Age'].fillna(df_filled['Age'].mean())
+df_filled['Salary'] = df_filled['Salary'].fillna(df_filled['Salary'].mean())
+print("\nc) Numerical filled with mean:\n", df_filled)
+
+# d) Fill categorical NaN with mode
+df_filled['Department'] = df_filled['Department'].fillna(
+    df_filled['Department'].mode()[0])
+print("\nd) Categorical filled with mode:\n", df_filled)
+        </pre>
+      </div>
+      <div class="explanation">
+        <h4>📘 Missing Data Handling Strategy</h4>
+        <table class="func-table">
+          <tr><th>Step</th><th>Function</th><th>When to Use</th></tr>
+          <tr><td>Identify</td><td><code>df.isnull() / df.isna()</code></td><td>Always — first step</td></tr>
+          <tr><td>Count</td><td><code>df.isnull().sum()</code></td><td>Understand scale of missing data</td></tr>
+          <tr><td>Remove</td><td><code>df.dropna()</code></td><td>When missing rows are few and not critical</td></tr>
+          <tr><td>Fill numeric</td><td><code>fillna(mean/median)</code></td><td>Preserve row count; numerical columns</td></tr>
+          <tr><td>Fill categorical</td><td><code>fillna(mode()[0])</code></td><td>Most frequent category for text columns</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- CAT III 10M -->
+  <div class="cat-group" style="margin-top:2rem;">CAT – III &nbsp;·&nbsp; <span>March 2026</span></div>
+
+  <div class="q-card green">
+    <div class="q-header" onclick="toggle(this)">
+      <div class="q-num">11</div>
+      <div class="q-text">Summarize the features and importance of NumPy in data visualization tasks.</div>
+      <div class="q-marks">10 Marks</div>
+    </div>
+    <div class="q-body collapsed">
+      <div class="code-block">
+        <div class="code-label">Python Program <button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>
+import numpy as np
+import matplotlib.pyplot as plt
+
+# ---- Feature 1: Fast Array Creation ----
+x = np.linspace(0, 2 * np.pi, 300)   # 300 evenly spaced points
+
+# ---- Feature 2: Mathematical Operations ----
+y_sin = np.sin(x)
+y_cos = np.cos(x)
+
+# ---- Feature 3: Statistical Functions ----
+data = np.random.normal(loc=50, scale=10, size=500)
+print("Mean  :", np.mean(data))
+print("Std   :", np.std(data))
+print("Median:", np.median(data))
+
+# ---- Feature 4: Boolean Masking for Filtering ----
+high = data[data > np.mean(data)]
+print("Above-avg count:", len(high))
+
+# ---- Feature 5: Reshape for Heatmap data ----
+matrix = np.arange(1, 101).reshape(10, 10)
+
+# ---- Visualization using NumPy-prepared data ----
+fig, axes = plt.subplots(1, 3, figsize=(14, 4))
+
+axes[0].plot(x, y_sin, 'b', label='sin(x)')
+axes[0].plot(x, y_cos, 'r', label='cos(x)')
+axes[0].legend(); axes[0].set_title('Trig Functions')
+
+axes[1].hist(data, bins=25, color='teal', edgecolor='white')
+axes[1].set_title('Normal Distribution')
+
+im = axes[2].imshow(matrix, cmap='viridis')
+axes[2].set_title('NumPy Reshaped Heatmap')
+plt.colorbar(im, ax=axes[2])
+
+plt.tight_layout(); plt.show()
+        </pre>
+      </div>
+      <div class="explanation">
+        <h4>📘 NumPy Features & Their Role in Data Visualization</h4>
+        <table class="func-table">
+          <tr><th>Feature</th><th>Function/Method</th><th>Role in Visualization</th></tr>
+          <tr><td>Array Creation</td><td><code>np.linspace(), np.arange()</code></td><td>Generate x-axis data points for plots</td></tr>
+          <tr><td>Math Functions</td><td><code>np.sin(), np.exp(), np.log()</code></td><td>Compute y-values for function plots</td></tr>
+          <tr><td>Statistics</td><td><code>np.mean(), np.std(), np.median()</code></td><td>Annotate charts with summary statistics</td></tr>
+          <tr><td>Boolean Masking</td><td><code>arr[condition]</code></td><td>Filter data for highlighted scatter points</td></tr>
+          <tr><td>Reshape</td><td><code>.reshape()</code></td><td>Prepare 2D matrices for heatmaps/imshow</td></tr>
+          <tr><td>Random</td><td><code>np.random.normal()</code></td><td>Generate sample/test datasets for histograms</td></tr>
+          <tr><td>Broadcasting</td><td>Arithmetic on arrays</td><td>Scale/normalize data before plotting</td></tr>
+        </table>
+        <p>Matplotlib and Seaborn are built on top of NumPy arrays — every plot ultimately receives NumPy arrays as input. NumPy provides the computational backbone while Matplotlib handles rendering.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-card green">
+    <div class="q-header" onclick="toggle(this)">
+      <div class="q-num">12</div>
+      <div class="q-text">Apply Pandas operations: filtering, grouping, and aggregation on sales dataset (Order_ID, Region, Salesperson, Product, Category, Quantity, Unit_Price, Total_Sales).</div>
+      <div class="q-marks">10 Marks</div>
+    </div>
+    <div class="q-body collapsed">
+      <div class="code-block">
+        <div class="code-label">Python Program <button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>
+import pandas as pd
+
+data = {
+    'Order_ID'   : [1001, 1002, 1003, 1004],
+    'Date'       : ['2024-01-05','2024-01-07','2024-01-08','2024-01-10'],
+    'Region'     : ['South','North','East','South'],
+    'Salesperson': ['Ravi','Anil','Priya','Ravi'],
+    'Product'    : ['Laptop','Smartphone','Desk Chair','Tablet'],
+    'Category'   : ['Electronics','Electronics','Furniture','Electronics'],
+    'Quantity'   : [2, 3, 5, 4],
+    'Unit_Price' : [55000, 20000, 3000, 15000],
+    'Total_Sales': [110000, 60000, 15000, 60000]
+}
+df = pd.DataFrame(data)
+print("Original Dataset:\n", df.to_string(), "\n")
+
+# --- Filtering ---
+print("=== Filtering: Electronics only ===")
+elec = df[df['Category'] == 'Electronics']
+print(elec[['Order_ID','Product','Total_Sales']])
+
+print("\n=== Filtering: Sales > 50000 ===")
+high_sales = df[df['Total_Sales'] > 50000]
+print(high_sales[['Product','Total_Sales']])
+
+# --- Grouping & Aggregation ---
+print("\n=== Group by Region: Total Sales ===")
+by_region = df.groupby('Region')['Total_Sales'].sum()
+print(by_region)
+
+print("\n=== Group by Category: Avg Unit Price ===")
+by_cat = df.groupby('Category')['Unit_Price'].mean()
+print(by_cat)
+
+print("\n=== Group by Salesperson: Multiple Aggregations ===")
+by_person = df.groupby('Salesperson').agg(
+    Total_Sales=('Total_Sales','sum'),
+    Num_Orders =('Order_ID','count'),
+    Avg_Qty    =('Quantity','mean')
+)
+print(by_person)
+        </pre>
+      </div>
+      <div class="explanation">
+        <h4>📘 Pandas Operations Explained</h4>
+        <table class="func-table">
+          <tr><th>Operation</th><th>Code Pattern</th><th>Purpose</th></tr>
+          <tr><td>Filtering</td><td><code>df[df['col'] == val]</code></td><td>Select rows matching a condition</td></tr>
+          <tr><td>Multi-filter</td><td><code>df[(cond1) &amp; (cond2)]</code></td><td>Combine conditions with &amp; or |</td></tr>
+          <tr><td>groupby</td><td><code>df.groupby('col')</code></td><td>Split into groups by unique values</td></tr>
+          <tr><td>.sum()</td><td><code>.groupby().sum()</code></td><td>Total per group</td></tr>
+          <tr><td>.mean()</td><td><code>.groupby().mean()</code></td><td>Average per group</td></tr>
+          <tr><td>.agg()</td><td><code>.agg({'col':'func'})</code></td><td>Multiple aggregations simultaneously</td></tr>
+          <tr><td>.count()</td><td><code>.groupby().count()</code></td><td>Count of rows per group</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-card green">
+    <div class="q-header" onclick="toggle(this)">
+      <div class="q-num">13</div>
+      <div class="q-text">Differentiate between various plot types supported in Matplotlib with examples.</div>
+      <div class="q-marks">10 Marks</div>
+    </div>
+    <div class="q-body collapsed">
+      <div class="code-block">
+        <div class="code-label">Python Program <button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>
+import matplotlib.pyplot as plt
+import numpy as np
+
+fig, axes = plt.subplots(2, 3, figsize=(14, 8))
+fig.suptitle('Matplotlib Plot Types', fontsize=15, fontweight='bold')
+
+# 1. Line Plot
+x = np.linspace(0, 10, 100)
+axes[0,0].plot(x, np.sin(x), color='blue')
+axes[0,0].set_title('1. Line Plot')
+axes[0,0].set_xlabel('X'); axes[0,0].set_ylabel('sin(x)')
+
+# 2. Bar Chart
+cats = ['A','B','C','D']
+vals = [23, 45, 18, 36]
+axes[0,1].bar(cats, vals, color=['#4c6ef5','#40c057','#fd7e14','#e64980'])
+axes[0,1].set_title('2. Bar Chart')
+
+# 3. Histogram
+data = np.random.normal(60, 15, 500)
+axes[0,2].hist(data, bins=20, color='teal', edgecolor='white')
+axes[0,2].set_title('3. Histogram')
+
+# 4. Scatter Plot
+x2 = np.random.rand(80)
+y2 = x2 * 2 + np.random.rand(80) * 0.5
+axes[1,0].scatter(x2, y2, alpha=0.7, color='purple')
+axes[1,0].set_title('4. Scatter Plot')
+
+# 5. Pie Chart
+sizes = [35, 25, 20, 20]
+labels = ['Electronics','Furniture','Clothing','Grocery']
+axes[1,1].pie(sizes, labels=labels, autopct='%1.1f%%', startangle=90)
+axes[1,1].set_title('5. Pie Chart')
+
+# 6. Area / Fill Plot
+x3 = np.linspace(0, 5, 100)
+axes[1,2].fill_between(x3, np.sin(x3), alpha=0.5, color='orange')
+axes[1,2].set_title('6. Area Plot')
+
+plt.tight_layout()
+plt.show()
+        </pre>
+      </div>
+      <div class="explanation">
+        <h4>📘 Plot Type Comparison</h4>
+        <table class="func-table">
+          <tr><th>Plot Type</th><th>Function</th><th>Best For</th><th>Key Parameters</th></tr>
+          <tr><td>Line</td><td><code>plt.plot()</code></td><td>Trends, time series</td><td>linestyle, marker, color</td></tr>
+          <tr><td>Bar</td><td><code>plt.bar()</code></td><td>Category comparison</td><td>width, color, edgecolor</td></tr>
+          <tr><td>Histogram</td><td><code>plt.hist()</code></td><td>Distribution</td><td>bins, density, alpha</td></tr>
+          <tr><td>Scatter</td><td><code>plt.scatter()</code></td><td>Correlation</td><td>s (size), c (color), alpha</td></tr>
+          <tr><td>Pie</td><td><code>plt.pie()</code></td><td>Part-of-whole</td><td>autopct, explode, startangle</td></tr>
+          <tr><td>Area</td><td><code>plt.fill_between()</code></td><td>Cumulative quantities</td><td>alpha, where</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-card green">
+    <div class="q-header" onclick="toggle(this)">
+      <div class="q-num">14</div>
+      <div class="q-text">Apply Matplotlib to construct multiple subplots and customize a visualization for monthly sales data (Electronics, Furniture, Clothing, Grocery — Jan to Jun).</div>
+      <div class="q-marks">10 Marks</div>
+    </div>
+    <div class="q-body collapsed">
+      <div class="code-block">
+        <div class="code-label">Python Program <button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>
+import matplotlib.pyplot as plt
+import numpy as np
+
+months      = ['Jan','Feb','Mar','Apr','May','Jun']
+electronics = [15000,18000,20000,22000,25000,27000]
+furniture   = [ 8000, 7000, 9000, 8500,10000,11000]
+clothing    = [ 6000, 6500, 7000, 7200, 8000, 8500]
+grocery     = [ 5000, 5200, 5500, 5800, 6000, 6200]
+
+x = np.arange(len(months))
+
+fig, axes = plt.subplots(2, 2, figsize=(14, 9))
+fig.suptitle('Monthly Category Sales — Jan to Jun 2024',
+             fontsize=15, fontweight='bold', y=1.02)
+
+# 1. Line plot — all categories
+axes[0,0].plot(months, electronics, 'o-', label='Electronics', color='#4c6ef5', lw=2)
+axes[0,0].plot(months, furniture,   's--', label='Furniture',  color='#40c057', lw=2)
+axes[0,0].plot(months, clothing,    '^:', label='Clothing',    color='#fd7e14', lw=2)
+axes[0,0].plot(months, grocery,     'D-', label='Grocery',     color='#e64980', lw=2)
+axes[0,0].set_title('Sales Trends (Line)'); axes[0,0].legend(); axes[0,0].grid(True, alpha=0.3)
+axes[0,0].set_ylabel('Sales (₹)')
+
+# 2. Grouped bar chart
+width = 0.2
+axes[0,1].bar(x - 1.5*width, electronics, width, label='Electronics', color='#4c6ef5')
+axes[0,1].bar(x - 0.5*width, furniture,   width, label='Furniture',   color='#40c057')
+axes[0,1].bar(x + 0.5*width, clothing,    width, label='Clothing',    color='#fd7e14')
+axes[0,1].bar(x + 1.5*width, grocery,     width, label='Grocery',     color='#e64980')
+axes[0,1].set_title('Grouped Bar Chart')
+axes[0,1].set_xticks(x); axes[0,1].set_xticklabels(months)
+axes[0,1].legend(); axes[0,1].set_ylabel('Sales (₹)')
+
+# 3. Stacked bar chart
+axes[1,0].bar(months, electronics, label='Electronics', color='#4c6ef5')
+axes[1,0].bar(months, furniture,   label='Furniture',   color='#40c057',
+              bottom=np.array(electronics))
+axes[1,0].bar(months, clothing,    label='Clothing',    color='#fd7e14',
+              bottom=np.array(electronics)+np.array(furniture))
+axes[1,0].bar(months, grocery,     label='Grocery',     color='#e64980',
+              bottom=np.array(electronics)+np.array(furniture)+np.array(clothing))
+axes[1,0].set_title('Stacked Bar Chart'); axes[1,0].legend(); axes[1,0].set_ylabel('Total Sales')
+
+# 4. Pie chart — June breakdown
+june_vals   = [electronics[-1], furniture[-1], clothing[-1], grocery[-1]]
+june_labels = ['Electronics','Furniture','Clothing','Grocery']
+axes[1,1].pie(june_vals, labels=june_labels, autopct='%1.1f%%',
+              colors=['#4c6ef5','#40c057','#fd7e14','#e64980'],
+              startangle=90, explode=[0.05,0,0,0])
+axes[1,1].set_title('June Sales Breakdown (Pie)')
+
+plt.tight_layout()
+plt.show()
+        </pre>
+      </div>
+      <div class="explanation">
+        <h4>📘 Subplot Customization Features Used</h4>
+        <table class="func-table">
+          <tr><th>Feature</th><th>Code</th><th>Effect</th></tr>
+          <tr><td>Multiple subplots</td><td><code>plt.subplots(2,2)</code></td><td>2×2 grid of individual axes</td></tr>
+          <tr><td>Grouped bars</td><td>offset with <code>x ± width</code></td><td>Side-by-side bars for each month</td></tr>
+          <tr><td>Stacked bars</td><td><code>bottom=</code> parameter</td><td>Bars stacked on top of each other</td></tr>
+          <tr><td>Pie chart</td><td><code>explode=[0.05,...]</code></td><td>Highlights one slice</td></tr>
+          <tr><td>Main title</td><td><code>fig.suptitle()</code></td><td>Title spanning all subplots</td></tr>
+          <tr><td>Legend</td><td><code>axes[i,j].legend()</code></td><td>Per-subplot legend</td></tr>
+          <tr><td>Grid</td><td><code>.grid(alpha=0.3)</code></td><td>Subtle reference lines</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-card green">
+    <div class="q-header" onclick="toggle(this)">
+      <div class="q-num">CAT-III Q14</div>
+      <div class="q-text">Describe how indexing, slicing, and rearranging data are performed using hierarchical indexing (MultiIndex) with suitable examples.</div>
+      <div class="q-marks">10 Marks</div>
+    </div>
+    <div class="q-body collapsed">
+      <div class="code-block">
+        <div class="code-label">Python Program <button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>
+import pandas as pd
+
+# Create MultiIndex DataFrame
+arrays = [
+    ['Electronics','Electronics','Furniture','Furniture','Clothing','Clothing'],
+    ['Laptop','Tablet','Chair','Table','Shirt','Jeans']
+]
+idx = pd.MultiIndex.from_arrays(arrays, names=['Category','Product'])
+
+df = pd.DataFrame({
+    'Q1_Sales': [110000, 60000, 15000, 25000, 8000, 12000],
+    'Q2_Sales': [120000, 65000, 18000, 27000, 9000, 13000],
+    'Quantity' : [2, 4, 5, 3, 10, 8]
+}, index=idx)
+
+print("MultiIndex DataFrame:\n", df)
+
+# 1. Index using outer level
+print("\n1. All Electronics:\n", df.loc['Electronics'])
+
+# 2. Index specific product
+print("\n2. Laptop data:\n", df.loc[('Electronics','Laptop')])
+
+# 3. Cross-section
+print("\n3. Cross-section — Q1_Sales for all Furniture:\n",
+      df.xs('Furniture', level='Category')['Q1_Sales'])
+
+# 4. Slicing
+print("\n4. Sliced Electronics Q1:\n",
+      df.loc['Electronics', 'Q1_Sales'])
+
+# 5. Rearranging — swap levels
+swapped = df.swaplevel()
+print("\n5. After swaplevel():\n", swapped.head())
+
+# 6. Sort index
+sorted_df = df.sort_index()
+print("\n6. Sorted by index:\n", sorted_df)
+
+# 7. Unstack — pivot inner level to columns
+unstacked = df['Q1_Sales'].unstack()
+print("\n7. Unstacked (Q1_Sales):\n", unstacked)
+        </pre>
+      </div>
+      <div class="explanation">
+        <h4>📘 MultiIndex Operations Explained</h4>
+        <table class="func-table">
+          <tr><th>Operation</th><th>Method</th><th>Purpose</th></tr>
+          <tr><td>Create MultiIndex</td><td><code>pd.MultiIndex.from_arrays()</code></td><td>Build hierarchical index from lists</td></tr>
+          <tr><td>Outer-level access</td><td><code>df.loc['Level1']</code></td><td>Get all rows under one outer key</td></tr>
+          <tr><td>Specific access</td><td><code>df.loc[('L1','L2')]</code></td><td>Access a specific (level1, level2) entry</td></tr>
+          <tr><td>Cross-section</td><td><code>df.xs(key, level=)</code></td><td>Slice along any level of MultiIndex</td></tr>
+          <tr><td>Swap levels</td><td><code>.swaplevel()</code></td><td>Exchange inner and outer index levels</td></tr>
+          <tr><td>Sort index</td><td><code>.sort_index()</code></td><td>Required for efficient slicing on MultiIndex</td></tr>
+          <tr><td>Unstack</td><td><code>.unstack()</code></td><td>Pivot inner level into columns (reshape)</td></tr>
+        </table>
+        <p>MultiIndex is useful for representing data that has natural groupings — like sales data by Category and Product — allowing efficient querying without complex filtering logic.</p>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end 10marks section -->
+
+</div><!-- container -->
+
+<button class="back-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+  function showSection(id) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+    event.target.classList.add('active');
+    window.scrollTo({top: 0, behavior: 'smooth'});
+  }
+
+  function toggle(header) {
+    const body = header.nextElementSibling;
+    body.classList.toggle('collapsed');
+  }
+
+  function copyCode(btn) {
+    const pre = btn.closest('.code-block').querySelector('pre');
+    navigator.clipboard.writeText(pre.innerText.trim()).then(() => {
+      btn.textContent = 'Copied!';
+      setTimeout(() => btn.textContent = 'Copy', 1500);
+    });
+  }
+
+  // scroll to top button
+  window.addEventListener('scroll', () => {
+    document.getElementById('backTop').classList.toggle('visible', window.scrollY > 300);
+  });
+
+  // open first card of each section by default
+  document.querySelectorAll('.section').forEach(sec => {
+    const first = sec.querySelector('.q-body');
+    if (first) first.classList.remove('collapsed');
+  });
+</script>
+</body>
+</html>
